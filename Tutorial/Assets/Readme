@@ -1,0 +1,9 @@
+These assets are needed to run the game. 
+
+For Version 2 of the game:
+
+  Install the Player.png and Enemy.png in the directory and file where your pygame project is saved
+
+  Lines 33 and 50 are the lines where the image location is used and can be adjusted to in your local version 
+  (line 33)   self.image = pygame.image.load("Enemy.png")
+  (line 50)   self.image = pygame.image.load("Player.png")
