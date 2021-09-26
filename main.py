@@ -43,7 +43,7 @@ class Toon(pygame.sprite.Sprite):
     def Move(self):
 
         randomDirection = random.randint(0,8) #create a random value to choose a direction
-        randomDistance = random.randint(1,2) #create a reandom value to choose a distance
+        randomDistance = random.randint(1,2) #create a reandom value to choose a distance 1 square or 2 squares
 
         #create a series of if statements to determine 1 or more directions for the toon to move
         if randomDirection == 1:
@@ -85,12 +85,12 @@ class Toon(pygame.sprite.Sprite):
     def MoveLeft(self, distance):
         self.rect.move_ip(-100 * distance, 0)
         if (self.rect.left < 0):
-            self.rect.left = 25
+            self.rect.left = 0
 
     def MoveRight(self, distance):
         self.rect.move_ip(100 * distance, 0)
         if (self.rect.right > SCREEN_WIDTH):
-            self.rect.right = SCREEN_WIDTH - 25
+            self.rect.right = SCREEN_WIDTH
 
 class BugsBunny(Toon):
     def __init__(self):
@@ -100,21 +100,76 @@ class BugsBunny(Toon):
 
         # randomly spawn bugs Creates a random int between 0-4 and then centers it to the midpoint of the 100 pixel sized square
         self.rect.center = (random.randint(0, (SCREEN_WIDTH/100)-1)*100+50, random.randint(0, (SCREEN_HEIGHT/100)-1)*100+50)
-    # def move(self):
-    #     self.rect.move_ip(0, 10)
-    #     if (self.rect.bottom > 600):
-    #         self.rect.top = 0
-    #         self.rect.center = (random.randint(0, 4)*100+50, random.randint(0, 4)*100+50)
+
+    def draw(self, surface):
+        surface.blit(self.image, self.rect)
+class Taz(Toon):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.image.load("Assets/taz.png")
+        self.rect = self.image.get_rect()
+
+        # randomly spawn bugs Creates a random int between 0-4 and then centers it to the midpoint of the 100 pixel sized square
+        self.rect.center = (random.randint(0, (SCREEN_WIDTH/100)-1)*100+50, random.randint(0, (SCREEN_HEIGHT/100)-1)*100+50)
+
+    def draw(self, surface):
+        surface.blit(self.image, self.rect)
+class Tweety(Toon):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.image.load("Assets/tweety.png")
+        self.rect = self.image.get_rect()
+
+        # randomly spawn bugs Creates a random int between 0-4 and then centers it to the midpoint of the 100 pixel sized square
+        self.rect.center = (random.randint(0, (SCREEN_WIDTH/100)-1)*100+50, random.randint(0, (SCREEN_HEIGHT/100)-1)*100+50)
+
+    def draw(self, surface):
+        surface.blit(self.image, self.rect)
+class Marvin(Toon):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.image.load("Assets/marvin.png")
+        self.rect = self.image.get_rect()
+
+        # randomly spawn bugs Creates a random int between 0-4 and then centers it to the midpoint of the 100 pixel sized square
+        self.rect.center = (random.randint(0, (SCREEN_WIDTH/100)-1)*100+50, random.randint(0, (SCREEN_HEIGHT/100)-1)*100+50)
+
+    def draw(self, surface):
+        surface.blit(self.image, self.rect)
+class mountain(Toon):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.image.load("Assets/mountain.png")
+        self.rect = self.image.get_rect()
+
+        # randomly spawn bugs Creates a random int between 0-4 and then centers it to the midpoint of the 100 pixel sized square
+        self.rect.center = (random.randint(0, (SCREEN_WIDTH/100)-1)*100+50, random.randint(0, (SCREEN_HEIGHT/100)-1)*100+50)
+
+    def draw(self, surface):
+        surface.blit(self.image, self.rect)
+class carrot(Toon):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.image.load("Assets/777.png")
+        self.rect = self.image.get_rect()
+
+        # randomly spawn bugs Creates a random int between 0-4 and then centers it to the midpoint of the 100 pixel sized square
+        self.rect.center = (random.randint(0, (SCREEN_WIDTH/100)-1)*100+50, random.randint(0, (SCREEN_HEIGHT/100)-1)*100+50)
 
     def draw(self, surface):
         surface.blit(self.image, self.rect)
 
 #creating sprites
 bugsbunny1 = BugsBunny()
+taz1 = Taz()
+tweety1 = Tweety()
+marvin1 = Marvin()
 
 #creating sprite groups
-# players = pygame.sprite.group()
-# players.add(bugsbunny1)
+players = pygame.sprite.Group()
+players.add(bugsbunny1)
+players.add(taz1)
+players.add(tweety1)
 
 
 # Beginning Game Loop
@@ -125,9 +180,13 @@ while True:
             pygame.quit()
             sys.exit()
     bugsbunny1.Move()
+    taz1.Move()
     DISPLAYSURF.fill(BGColor)
     board_draw(WIDTH, HEIGHT, SCREEN_WIDTH)
     bugsbunny1.draw(DISPLAYSURF)
+    taz1.draw(DISPLAYSURF)
+    tweety1.draw(DISPLAYSURF)
+    marvin1.draw(DISPLAYSURF)
     pygame.display.update()
     pygame.time.delay(500)
     FramePerSec.tick(FPS)
