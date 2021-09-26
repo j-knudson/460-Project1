@@ -1,5 +1,6 @@
 import pygame, sys
 from pygame.locals import *
+import random
 
 # Initialize program
 pygame.init()
@@ -19,10 +20,10 @@ Yellow = (255,255,102)
 BGColor = Yellow #set background color to yellow
 
 # Setup a 500x500 pixel display with caption
-DisplayWidth = 500   #set width; could refactor to just one pixel size
-DisplayHeight = 500  #set height
+SCREEN_WIDTH = 500   #set width; could refactor to just one pixel size
+SCREEN_HEIGHT = 500  #set height
 
-DISPLAYSURF = pygame.display.set_mode((DisplayWidth, DisplayHeight))
+DISPLAYSURF = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 DISPLAYSURF.fill(BGColor)
 pygame.display.set_caption("Toon Board")
 
@@ -30,11 +31,33 @@ pygame.display.set_caption("Toon Board")
 #Draw board lines
 WIDTH = 0
 HEIGHT = 0
-while WIDTH < DisplayWidth:
-    pygame.draw.line(DISPLAYSURF, BLACK, (WIDTH, 0), (WIDTH, 500))
-    pygame.draw.line(DISPLAYSURF, BLACK, (0, HEIGHT), (500, HEIGHT))
-    WIDTH += 100
-    HEIGHT += 100
+def board_draw(Width, Height, Screen_Width):
+    while Width < Screen_Width:
+        pygame.draw.line(DISPLAYSURF, BLACK, (Width, 0), (Width, 500))
+        pygame.draw.line(DISPLAYSURF, BLACK, (0, Height), (500, Height))
+        Width += 100
+        Height += 100
+
+class Toon(pygame.sprite.Sprite):
+    def testf(self):
+        print("Hello world!")
+class BugsBunny(Toon):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.image.load("bugs2.png")
+        self.rect = self.image.get_rect()
+
+        # randomly spawn bugs Creates a random int between 0-4 and then centers it to the midpoint of the 100 pixel sized square
+        self.rect.center = (random.randint(0, (SCREEN_WIDTH/100)-1)*100+50, random.randint(0, (SCREEN_HEIGHT/100)-1)*100+50)
+    def move(self):
+        self.rect.move_ip(0, 10)
+        if (self.rect.bottom > 600):
+            self.rect.top = 0
+            self.rect.center = (random.randint(0, 4)*100+50, random.randint(0, 4)*100+50)
+
+    def draw(self, surface):
+        surface.blit(self.image, self.rect)
+bugsbunny1 = BugsBunny()
 
 # Beginning Game Loop
 while True:
@@ -43,5 +66,10 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
+    bugsbunny1.move()
+    DISPLAYSURF.fill(BGColor)
+    board_draw(WIDTH, HEIGHT, SCREEN_WIDTH)
+    bugsbunny1.draw(DISPLAYSURF)
 
+    pygame.display.update()
     FramePerSec.tick(FPS)
