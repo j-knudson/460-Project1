@@ -39,62 +39,63 @@ def board_draw(Width, Height, Screen_Width):
         Height += 100
 
 class Toon(pygame.sprite.Sprite):
+
     def Move(self):
-        #These four functions control cardinal direction movement
-        def MoveUp(self, distance):
-            self.rect.move_ip(0, -100 * distance)
-            if (self.rect.top < 0):  # check if top of board is reached
-                self.rect.top = 0  # if so set position to top of board
 
-        def MoveDown(self, distance):
-            self.rect.move_ip(0, 100 * distance)
-            if (self.rect.bottom > SCREEN_HEIGHT):  # check if bottom reached
-                self.rect.bottom = SCREEN_HEIGHT  # if so set position to bottom
-
-        def MoveLeft(self, distance):
-            self.rect.move_ip(-100 * distance, 0)
-            if (self.rect.left < 0):
-                self.rect.left = 25
-
-        def MoveRight(self, distance):
-            self.rect.move_ip(100 * distance, 0)
-            if (self.rect.right > SCREEN_WIDTH):
-                self.rect.right = SCREEN_WIDTH - 25
         randomDirection = random.randint(0,8) #create a random value to choose a direction
         randomDistance = random.randint(1,2) #create a reandom value to choose a distance
 
         #create a series of if statements to determine 1 or more directions for the toon to move
         if randomDirection == 1:
-            MoveUp(self, randomDistance)
+            self.MoveUp(randomDistance)
         if randomDirection == 2:
-            MoveDown(self, randomDistance)
+            self.MoveDown(randomDistance)
         if randomDirection == 3:
-            MoveRight(self, randomDistance)
+            self.MoveRight(randomDistance)
         if randomDirection == 4:
-            MoveLeft(self, randomDistance)
+            self.MoveLeft(randomDistance)
         if randomDirection == 5:
-            MoveUp(self, randomDistance)
+            self.MoveUp(randomDistance)
             randomDistance = random.randint(1, 2)
-            MoveRight(self, randomDistance)
+            self.MoveRight(randomDistance)
         if randomDirection == 6:
-            MoveUp(self, randomDistance)
+            self.MoveUp(randomDistance)
             randomDistance = random.randint(1, 2)
-            MoveLeft(self, randomDistance)
+            self.MoveLeft(randomDistance)
         if randomDirection == 7:
-            MoveDown(self, randomDistance)
+            self.MoveDown(randomDistance)
             randomDistance = random.randint(1, 2)
-            MoveRight(self, randomDistance)
+            self.MoveRight(randomDistance)
         if randomDirection == 8:
-            MoveDown(self, randomDistance)
+            self.MoveDown(randomDistance)
             randomDistance = random.randint(1, 2)
-            MoveLeft(self, randomDistance)
+            self.MoveLeft(randomDistance)
 
+    # These four functions control cardinal direction movement
+    def MoveUp(self, distance):
+        self.rect.move_ip(0, -100 * distance)
+        if (self.rect.top < 0):  # check if top of board is reached
+            self.rect.top = 0  # if so set position to top of board
 
+    def MoveDown(self, distance):
+        self.rect.move_ip(0, 100 * distance)
+        if (self.rect.bottom > SCREEN_HEIGHT):  # check if bottom reached
+            self.rect.bottom = SCREEN_HEIGHT  # if so set position to bottom
+
+    def MoveLeft(self, distance):
+        self.rect.move_ip(-100 * distance, 0)
+        if (self.rect.left < 0):
+            self.rect.left = 25
+
+    def MoveRight(self, distance):
+        self.rect.move_ip(100 * distance, 0)
+        if (self.rect.right > SCREEN_WIDTH):
+            self.rect.right = SCREEN_WIDTH - 25
 
 class BugsBunny(Toon):
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load("bugs2.png")
+        self.image = pygame.image.load("Assets/bugs2.png")
         self.rect = self.image.get_rect()
 
         # randomly spawn bugs Creates a random int between 0-4 and then centers it to the midpoint of the 100 pixel sized square
@@ -107,7 +108,14 @@ class BugsBunny(Toon):
 
     def draw(self, surface):
         surface.blit(self.image, self.rect)
+
+#creating sprites
 bugsbunny1 = BugsBunny()
+
+#creating sprite groups
+# players = pygame.sprite.group()
+# players.add(bugsbunny1)
+
 
 # Beginning Game Loop
 while True:
@@ -121,4 +129,5 @@ while True:
     board_draw(WIDTH, HEIGHT, SCREEN_WIDTH)
     bugsbunny1.draw(DISPLAYSURF)
     pygame.display.update()
+    pygame.time.delay(500)
     FramePerSec.tick(FPS)
