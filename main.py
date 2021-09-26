@@ -74,22 +74,34 @@ class Toon(pygame.sprite.Sprite):
 
     # These four functions control cardinal direction movement
     def MoveUp(self, distance):
-        self.rect.move_ip(0, -100 * distance)
+        distance_moved = 0
+        while distance_moved < distance:
+            self.rect.move_ip(0, -100)
+            distance_moved +=1
         if (self.rect.top < 0):  # check if top of board is reached
             self.rect.top = 0  # if so set position to top of board
 
     def MoveDown(self, distance):
-        self.rect.move_ip(0, 100 * distance)
+        distance_moved = 0
+        while distance_moved < distance:
+            self.rect.move_ip(0, 100)
+            distance_moved +=1
         if (self.rect.bottom > SCREEN_HEIGHT):  # check if bottom reached
             self.rect.bottom = SCREEN_HEIGHT  # if so set position to bottom
 
     def MoveLeft(self, distance):
-        self.rect.move_ip(-100 * distance, 0)
+        distance_moved = 0
+        while distance_moved < distance:
+            self.rect.move_ip(-100, 0)
+            distance_moved +=1
         if (self.rect.left < 0):
             self.rect.left = 0
 
     def MoveRight(self, distance):
-        self.rect.move_ip(100 * distance, 0)
+        distance_moved = 0
+        while distance_moved < distance:
+            self.rect.move_ip(100, 0)
+            distance_moved +=1
         if (self.rect.right > SCREEN_WIDTH):
             self.rect.right = SCREEN_WIDTH
     def Spawn(self):
