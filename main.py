@@ -39,8 +39,23 @@ def board_draw(Width, Height, Screen_Width):
         Height += 100
 
 class Toon(pygame.sprite.Sprite):
-    def testf(self):
-        print("Hello world!")
+    def MoveUp(self):
+        self.rect.move_ip(0,-200)
+        if (self.rect.top < 0):
+            self.rect.top = 0
+    def MoveDown(self):
+        self.rect.move_ip(0,200)
+        if (self.rect.bottom > SCREEN_HEIGHT):
+            self.rect.bottom = SCREEN_HEIGHT
+    def MoveLeft(self):
+        self.rect.move_ip(-200,0)
+        if (self.rect.left < 0):
+            self.rect.left = 25
+    def MoveRight(self):
+        self.rect.move_ip(200,0)
+        if (self.rect.right > SCREEN_WIDTH):
+            self.rect.right = SCREEN_WIDTH-25
+
 class BugsBunny(Toon):
     def __init__(self):
         super().__init__()
@@ -49,11 +64,11 @@ class BugsBunny(Toon):
 
         # randomly spawn bugs Creates a random int between 0-4 and then centers it to the midpoint of the 100 pixel sized square
         self.rect.center = (random.randint(0, (SCREEN_WIDTH/100)-1)*100+50, random.randint(0, (SCREEN_HEIGHT/100)-1)*100+50)
-    def move(self):
-        self.rect.move_ip(0, 10)
-        if (self.rect.bottom > 600):
-            self.rect.top = 0
-            self.rect.center = (random.randint(0, 4)*100+50, random.randint(0, 4)*100+50)
+    # def move(self):
+    #     self.rect.move_ip(0, 10)
+    #     if (self.rect.bottom > 600):
+    #         self.rect.top = 0
+    #         self.rect.center = (random.randint(0, 4)*100+50, random.randint(0, 4)*100+50)
 
     def draw(self, surface):
         surface.blit(self.image, self.rect)
@@ -66,10 +81,10 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
-    bugsbunny1.move()
+    #bugsbunny1.MoveUp()
     DISPLAYSURF.fill(BGColor)
     board_draw(WIDTH, HEIGHT, SCREEN_WIDTH)
     bugsbunny1.draw(DISPLAYSURF)
-
+    bugsbunny1.MoveRight()
     pygame.display.update()
     FramePerSec.tick(FPS)
