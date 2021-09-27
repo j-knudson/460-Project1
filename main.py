@@ -113,7 +113,8 @@ class Toon(pygame.sprite.Sprite):
             print("Bad spawn")
             self.Spawn
 
-
+    def hasCarrot(self):
+        carrot = false
 
 
 class BugsBunny(Toon):
@@ -121,6 +122,8 @@ class BugsBunny(Toon):
         super().__init__()
         self.image = pygame.image.load("Assets/bugs2.png")
         self.rect = self.image.get_rect()
+        self.name = "Bugs"
+        self.carrot = False
 
         # randomly spawn bugs Creates a random int between 0-4 and then centers it to the midpoint of the 100 pixel sized square
         self.Spawn()
@@ -132,6 +135,8 @@ class Taz(Toon):
         super().__init__()
         self.image = pygame.image.load("Assets/taz.png")
         self.rect = self.image.get_rect()
+        self.name ="Taz"
+        self.carrot = False
 
         self.Spawn()
 
@@ -214,21 +219,20 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
+    DISPLAYSURF.fill(BGColor)
+    board_draw(WIDTH, HEIGHT, SCREEN_WIDTH)
+    for sprite in all_sprites:
+        sprite.draw(DISPLAYSURF)
     for player in players:
+        print("It is now ", player.name, "'s turn")
+        if player.carrot:
+            print(player.name, " has the carrot")
+        else:
+            print(player.name, " is looking for the carrot")
         players.remove(player)
         player.Move()
         players.add(player)
-    DISPLAYSURF.fill(BGColor)
-    board_draw(WIDTH, HEIGHT, SCREEN_WIDTH)
-    # bugsbunny1.draw(DISPLAYSURF)
-    # taz1.draw(DISPLAYSURF)
-    # tweety1.draw(DISPLAYSURF)
-    # marvin1.draw(DISPLAYSURF)
-    # carrot1.draw(DISPLAYSURF)
-    # mountain1.draw(DISPLAYSURF)
-    for sprite in all_sprites:
-        sprite.draw(DISPLAYSURF)
+        pygame.time.delay(1000)
 
     pygame.display.update()
-    pygame.time.delay(500)
     FramePerSec.tick(FPS)
