@@ -151,12 +151,13 @@ class Toon(pygame.sprite.Sprite):
             self.rect.right = SCREEN_WIDTH
     def Spawn(self):
         self.rect.center = (random.randint(0, (SCREEN_WIDTH / 100) - 1) * 100 + 50, random.randint(0, (SCREEN_HEIGHT / 100) - 1) * 100 + 50)
-        if pygame.sprite.spritecollideany(self, all_sprites):
-            print("Bad spawn")
+        occupied =  pygame.sprite.spritecollideany(self, all_sprites)
+        if occupied:
+            print("Bad spawn: ", self.name, " tried to spawn in ", occupied.name,"'s location")
             self.Spawn()
-
-    # def setCarrot(self, gotcarrot):
-    #     self.hascarrot = gotcarrot
+    # def get_Location(self):
+    #     location = (surface.get_rect().x, surface.get_rect().y)
+    #     return location
 
 
 class BugsBunny(Toon):
@@ -223,6 +224,7 @@ class Mountain(Toon):
         super().__init__()
         self.image = pygame.image.load("Assets/mountain.png")
         self.rect = self.image.get_rect()
+        self.name = "Mountain"
 
         # self.Spawn()
 
@@ -233,6 +235,7 @@ class Carrot(Toon):
         super().__init__()
         self.image = pygame.image.load("Assets/777.png")
         self.rect = self.image.get_rect()
+        self.name = "Carrot"
 
         # self.Spawn()
 
@@ -298,21 +301,23 @@ while True:
     #     sprite.draw(DISPLAYSURF)
     for entity in all_sprites:
         DISPLAYSURF.blit(entity.image, entity.rect)
-    for player in players:
-        #print("It is now ", player.name, "'s turn")
-        # if player.hascarrot:
-        #     print(player.name, " has the carrot")
-        #else:
-            #print(player.name, " is looking for the carrot")
-        if player.name == "Marvin" and turn_counter%3 ==0 and turn_counter > 0:  #check to activate marvin's time-travel machine
-            print("Activating Marvin's multi-dimensional time-travel machine")
-            all_sprites.remove(mountain1)
-            mountain1.Spawn()
-            all_sprites.add(mountain1)
-        players.remove(player)
-        player.Move()
-        players.add(player)
-        pygame.time.delay(1000)
+    if turn_counter > 0:
+        for player in players:
+            # print(player.get_location())
+            #print("It is now ", player.name, "'s turn")
+            # if player.hascarrot:
+            #     print(player.name, " has the carrot")
+            #else:
+                #print(player.name, " is looking for the carrot")
+            if player.name == "Marvin" and turn_counter%3 ==0:  #check to activate marvin's time-travel machine
+                print("Activating Marvin's multi-dimensional time-travel machine")
+                all_sprites.remove(mountain1)
+                mountain1.Spawn()
+                all_sprites.add(mountain1)
+            players.remove(player)
+            player.Move()
+            players.add(player)
+            pygame.time.delay(100)
     turn_counter += 1
     print("It is turn: ", turn_counter)
     pygame.display.update()
