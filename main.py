@@ -85,9 +85,12 @@ class Toon(pygame.sprite.Sprite):
                 print(self.name, "got the carrot!")
                 self.hascarrot = True
                 self.setCarrotImage()
+                pygame.sprite.Sprite.kill(carrothit)
+            elif not self.avoid:
+                print(self.name, "got the second carrot!")
+                pygame.sprite.Sprite.kill(carrothit)
             else:
                 self.Move()
-            pygame.sprite.Sprite.kill(carrothit)
         if pygame.sprite.spritecollideany(self, mountain):
             if self.hascarrot:
                 print(self.name, "brought the carrot to the mountain and won!")
