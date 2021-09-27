@@ -79,11 +79,15 @@ class Toon(pygame.sprite.Sprite):
                 self.hascarrot = True
                 self.setCarrotImage()
             pygame.sprite.Sprite.kill(contact)
-        if pygame.sprite.spritecollideany(self, carrot):
-            print(self.name, "got the carrot!")
-            self.hascarrot = True
-            self.setCarrotImage()
-            pygame.sprite.Sprite.kill(carrot1)
+        carrothit = pygame.sprite.spritecollideany(self, carrot)
+        if carrothit:
+            if not self.hascarrot:
+                print(self.name, "got the carrot!")
+                self.hascarrot = True
+                self.setCarrotImage()
+            else:
+                self.Move()
+            pygame.sprite.Sprite.kill(carrothit)
         if pygame.sprite.spritecollideany(self, mountain):
             if self.hascarrot:
                 print(self.name, "brought the carrot to the mountain and won!")
@@ -174,7 +178,7 @@ class BugsBunny(Toon):
         self.rect = self.image.get_rect()
         self.avoid = True  #does the toon avoid other toons
     def setCarrotImage(self):
-        self.image = pygame.image.load("Assets/bugs2.png")
+        self.image = pygame.image.load("Assets/bugscarrot.png")
 
 
 
@@ -264,6 +268,7 @@ taz1 = Taz()
 tweety1 = Tweety()
 marvin1 = Marvin()
 carrot1 = Carrot()
+carrot2 = Carrot()
 mountain1 = Mountain()
 
 #creating sprite groups
@@ -281,11 +286,13 @@ all_sprites.add(taz1)
 all_sprites.add(tweety1)
 all_sprites.add(marvin1)
 all_sprites.add(carrot1)
+all_sprites.add(carrot2)
 all_sprites.add(mountain1)
 
-#carrot group:                      #single sprite group for the carrot
+#carrot group:                      #sprite group for the carrots
 carrot = pygame.sprite.Group()
 carrot.add(carrot1)
+carrot.add(carrot2)
 
 #mountain group:                    #single sprite group for the mountain
 mountain = pygame.sprite.Group()
@@ -329,7 +336,7 @@ while True:
             players.remove(player)
             player.Move()
             players.add(player)
-            pygame.time.delay(100)
+            pygame.time.delay(200)
     turn_counter += 1
     print("It is turn: ", turn_counter)
     pygame.display.update()
