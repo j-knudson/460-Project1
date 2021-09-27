@@ -71,7 +71,12 @@ class Toon(pygame.sprite.Sprite):
             self.MoveDown(randomDistance)
             randomDistance = random.randint(1, 2)
             self.MoveLeft(randomDistance)
+        contact =  pygame.sprite.spritecollideany(self, players)
+        if contact:
+            print(self.name, " hit ", contact.name)
+            pygame.sprite.Sprite.kill(contact)
         players.add(self) #return self to players group
+
 
     # These four functions control cardinal direction movement
     def MoveUp(self, distance):
@@ -80,7 +85,6 @@ class Toon(pygame.sprite.Sprite):
             self.rect.move_ip(0, -100)
             distance_moved +=1
             test = pygame.sprite.spritecollideany(self, players)
-            print("Hit another sprite: ", test)
             if test and self.avoid:
                 self.rect.move_ip(0, 100)
                 break
@@ -243,15 +247,15 @@ while True:
     for sprite in all_sprites:
         sprite.draw(DISPLAYSURF)
     for player in players:
-        print("It is now ", player.name, "'s turn")
-        if player.carrot:
-            print(player.name, " has the carrot")
-        else:
-            print(player.name, " is looking for the carrot")
+        #print("It is now ", player.name, "'s turn")
+        #if player.carrot:
+            #print(player.name, " has the carrot")
+        #else:
+            #print(player.name, " is looking for the carrot")
         players.remove(player)
         player.Move()
         players.add(player)
-        pygame.time.delay(1000)
+        pygame.time.delay(10)
 
     pygame.display.update()
     FramePerSec.tick(FPS)
