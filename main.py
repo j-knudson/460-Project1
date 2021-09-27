@@ -74,7 +74,7 @@ class Toon(pygame.sprite.Sprite):
         contact =  pygame.sprite.spritecollideany(self, players)
         if contact:
             print(self.name, " hit ", contact.name)
-            if contact.carrot:
+            if contact.hascarrot:
                 print(contact.name, "had the carrot and it is stolen!")
                 self.hascarrot = True
             pygame.sprite.Sprite.kill(contact)
@@ -174,7 +174,7 @@ class BugsBunny(Toon):
 
 
         # randomly spawn bugs Creates a random int between 0-4 and then centers it to the midpoint of the 100 pixel sized square
-        self.Spawn()
+        # self.Spawn()
 
     def draw(self, surface):
         surface.blit(self.image, self.rect)
@@ -190,7 +190,6 @@ class Taz(Toon):
         self.rect = self.image.get_rect()
         self.avoid = True
 
-        self.Spawn()
 
     def draw(self, surface):
         surface.blit(self.image, self.rect)
@@ -203,7 +202,7 @@ class Tweety(Toon):
         self.hascarrot = False
         self.avoid = True
 
-        self.Spawn()
+        # self.Spawn()
 
     def draw(self, surface):
         surface.blit(self.image, self.rect)
@@ -215,7 +214,7 @@ class Marvin(Toon):
         self.name = "Marvin"
         self.hascarrot = False
         self.avoid = False
-        self.Spawn()
+        # self.Spawn()
 
     def draw(self, surface):
         surface.blit(self.image, self.rect)
@@ -225,7 +224,7 @@ class Mountain(Toon):
         self.image = pygame.image.load("Assets/mountain.png")
         self.rect = self.image.get_rect()
 
-        self.Spawn()
+        # self.Spawn()
 
     def draw(self, surface):
         surface.blit(self.image, self.rect)
@@ -235,7 +234,7 @@ class Carrot(Toon):
         self.image = pygame.image.load("Assets/777.png")
         self.rect = self.image.get_rect()
 
-        self.Spawn()
+        # self.Spawn()
 
     def draw(self, surface):
         surface.blit(self.image, self.rect)
@@ -245,10 +244,10 @@ all_sprites = pygame.sprite.Group()
 
 
 #creating sprites
-#bugsbunny1 = BugsBunny()
+bugsbunny1 = BugsBunny()
 taz1 = Taz()
-#tweety1 = Tweety()
-#marvin1 = Marvin()
+tweety1 = Tweety()
+marvin1 = Marvin()
 carrot1 = Carrot()
 mountain1 = Mountain()
 
@@ -256,16 +255,16 @@ mountain1 = Mountain()
 
 #players: toons that have turns
 players = pygame.sprite.Group()
-#players.add(bugsbunny1)
+players.add(bugsbunny1)
 players.add(taz1)
-#players.add(tweety1)
-#players.add(marvin1)
+players.add(tweety1)
+players.add(marvin1)
 
 #all sprites: all created toons
-#all_sprites.add(bugsbunny1)
+all_sprites.add(bugsbunny1)
 all_sprites.add(taz1)
-#all_sprites.add(tweety1)
-#all_sprites.add(marvin1)
+all_sprites.add(tweety1)
+all_sprites.add(marvin1)
 all_sprites.add(carrot1)
 all_sprites.add(mountain1)
 
@@ -276,6 +275,10 @@ carrot.add(carrot1)
 #mountain group:
 mountain = pygame.sprite.Group()
 mountain.add(mountain1)
+
+#spawning toons
+for sprite in all_sprites:
+    sprite.Spawn()
 
 # Beginning Game Loop
 turn_counter = 0
