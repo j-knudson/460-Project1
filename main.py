@@ -153,7 +153,7 @@ class Toon(pygame.sprite.Sprite):
         self.rect.center = (random.randint(0, (SCREEN_WIDTH / 100) - 1) * 100 + 50, random.randint(0, (SCREEN_HEIGHT / 100) - 1) * 100 + 50)
         if pygame.sprite.spritecollideany(self, all_sprites):
             print("Bad spawn")
-            self.Spawn
+            self.Spawn()
 
     # def setCarrot(self, gotcarrot):
     #     self.hascarrot = gotcarrot
@@ -268,20 +268,22 @@ all_sprites.add(marvin1)
 all_sprites.add(carrot1)
 all_sprites.add(mountain1)
 
-#carrot group:
+#carrot group:                      #single sprite group for the carrot
 carrot = pygame.sprite.Group()
 carrot.add(carrot1)
 
-#mountain group:
+#mountain group:                    #single sprite group for the mountain
 mountain = pygame.sprite.Group()
 mountain.add(mountain1)
 
-#spawning toons
-for sprite in all_sprites:
-    sprite.Spawn()
+#spawning sprites
+for sprite in all_sprites:          #cycle through all the sprites
+    all_sprites.remove(sprite)      #remove the current sprite to prevent it from triggering contact with itself
+    sprite.Spawn()                  #spawn sprite
+    all_sprites.add(sprite)         #return sprite to the app_sprites group
 
 # Beginning Game Loop
-turn_counter = 0
+turn_counter = 0                    #used to keep track of the number of turns
 while True:
     pygame.display.update()
     for event in pygame.event.get():
@@ -300,10 +302,15 @@ while True:
         #     print(player.name, " has the carrot")
         #else:
             #print(player.name, " is looking for the carrot")
+        if player.name == "Marvin" and turn_counter%3 ==0:  #check to activate marvin's time-travel machine
+            print("Activating marvins skills")
+            all_sprites.remove(mountain1)
+            mountain1.Spawn()
+            all_sprites.add(mountain1)
         players.remove(player)
         player.Move()
         players.add(player)
-        pygame.time.delay(10)
+        pygame.time.delay(1000)
     turn_counter += 1
     print("It is turn: ", turn_counter)
     pygame.display.update()
