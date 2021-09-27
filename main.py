@@ -155,8 +155,8 @@ class Toon(pygame.sprite.Sprite):
             print("Bad spawn")
             self.Spawn
 
-    def hasCarrot(self):
-        self.hascarrot = false
+    # def setCarrot(self, gotcarrot):
+    #     self.hascarrot = gotcarrot
 
 
 class BugsBunny(Toon):
@@ -278,6 +278,7 @@ mountain = pygame.sprite.Group()
 mountain.add(mountain1)
 
 # Beginning Game Loop
+turn_counter = 0
 while True:
     pygame.display.update()
     for event in pygame.event.get():
@@ -286,18 +287,21 @@ while True:
             sys.exit()
     DISPLAYSURF.fill(BGColor)
     board_draw(WIDTH, HEIGHT, SCREEN_WIDTH)
-    for sprite in all_sprites:
-        sprite.draw(DISPLAYSURF)
+    # for sprite in all_sprites:
+    #     sprite.draw(DISPLAYSURF)
+    for entity in all_sprites:
+        DISPLAYSURF.blit(entity.image, entity.rect)
     for player in players:
         #print("It is now ", player.name, "'s turn")
-        #if player.carrot:
-            #print(player.name, " has the carrot")
+        # if player.hascarrot:
+        #     print(player.name, " has the carrot")
         #else:
             #print(player.name, " is looking for the carrot")
         players.remove(player)
         player.Move()
         players.add(player)
-        pygame.time.delay(500)
-
+        pygame.time.delay(10)
+    turn_counter += 1
+    print("It is turn: ", turn_counter)
     pygame.display.update()
     FramePerSec.tick(FPS)
