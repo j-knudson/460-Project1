@@ -75,7 +75,7 @@ class Toon(pygame.sprite.Sprite):
         if contact:
             print(self.name, " hit ", contact.name)
             if contact.carrot:
-                print(contact, "had the carrot and it is stolen!")
+                print(contact.name, "had the carrot and it is stolen!")
                 self.carrot = True
             pygame.sprite.Sprite.kill(contact)
         if pygame.sprite.spritecollideany(self, carrot):
