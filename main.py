@@ -277,10 +277,7 @@ mountain = pygame.sprite.Group()
 mountain.add(mountain1)
 
 #spawning sprites
-for sprite in all_sprites:          #cycle through all the sprites
-    all_sprites.remove(sprite)      #remove the current sprite to prevent it from triggering contact with itself
-    sprite.Spawn()                  #spawn sprite
-    all_sprites.add(sprite)         #return sprite to the app_sprites group
+
 
 # Beginning Game Loop
 turn_counter = 0                    #used to keep track of the number of turns
@@ -292,6 +289,11 @@ while True:
             sys.exit()
     DISPLAYSURF.fill(BGColor)
     board_draw(WIDTH, HEIGHT, SCREEN_WIDTH)
+    if turn_counter == 0:
+        for sprite in all_sprites:  # cycle through all the sprites
+            all_sprites.remove(sprite)  # remove the current sprite to prevent it from triggering contact with itself
+            sprite.Spawn()  # spawn sprite
+            all_sprites.add(sprite)  # return sprite to the app_sprites group
     # for sprite in all_sprites:
     #     sprite.draw(DISPLAYSURF)
     for entity in all_sprites:
@@ -302,8 +304,8 @@ while True:
         #     print(player.name, " has the carrot")
         #else:
             #print(player.name, " is looking for the carrot")
-        if player.name == "Marvin" and turn_counter%3 ==0:  #check to activate marvin's time-travel machine
-            print("Activating marvins skills")
+        if player.name == "Marvin" and turn_counter%3 ==0 and turn_counter > 0:  #check to activate marvin's time-travel machine
+            print("Activating Marvin's multi-dimensional time-travel machine")
             all_sprites.remove(mountain1)
             mountain1.Spawn()
             all_sprites.add(mountain1)
