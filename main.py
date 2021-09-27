@@ -81,6 +81,9 @@ class Toon(pygame.sprite.Sprite):
             distance_moved +=1
             test = pygame.sprite.spritecollideany(self, players)
             print("Hit another sprite: ", test)
+            if test and self.avoid:
+                self.rect.move_ip(0, 100)
+                break
         if (self.rect.top < 0):  # check if top of board is reached
             self.rect.top = 0  # if so set position to top of board
 
@@ -89,6 +92,9 @@ class Toon(pygame.sprite.Sprite):
         while distance_moved < distance:
             self.rect.move_ip(0, 100)
             distance_moved +=1
+            if pygame.sprite.spritecollideany(self, players) and self.avoid :
+                self.rect.move_ip(0, -100)
+                break
         if (self.rect.bottom > SCREEN_HEIGHT):  # check if bottom reached
             self.rect.bottom = SCREEN_HEIGHT  # if so set position to bottom
 
@@ -97,6 +103,9 @@ class Toon(pygame.sprite.Sprite):
         while distance_moved < distance:
             self.rect.move_ip(-100, 0)
             distance_moved +=1
+            if pygame.sprite.spritecollideany(self, players) and self.avoid:
+                self.rect.move_ip(100, 0)
+                break
         if (self.rect.left < 0):
             self.rect.left = 0
 
@@ -105,6 +114,9 @@ class Toon(pygame.sprite.Sprite):
         while distance_moved < distance:
             self.rect.move_ip(100, 0)
             distance_moved +=1
+            if pygame.sprite.spritecollideany(self, players) and self.avoid:
+                self.rect.move_ip(-100, 0)
+                break
         if (self.rect.right > SCREEN_WIDTH):
             self.rect.right = SCREEN_WIDTH
     def Spawn(self):
@@ -124,6 +136,7 @@ class BugsBunny(Toon):
         self.rect = self.image.get_rect()
         self.name = "Bugs"
         self.carrot = False
+        self.avoid = True
 
         # randomly spawn bugs Creates a random int between 0-4 and then centers it to the midpoint of the 100 pixel sized square
         self.Spawn()
@@ -137,6 +150,7 @@ class Taz(Toon):
         self.rect = self.image.get_rect()
         self.name ="Taz"
         self.carrot = False
+        self.avoid = True
 
         self.Spawn()
 
@@ -147,6 +161,9 @@ class Tweety(Toon):
         super().__init__()
         self.image = pygame.image.load("Assets/tweety.png")
         self.rect = self.image.get_rect()
+        self.name = "Tweety"
+        self.carrot = False
+        self.avoid = True
 
         self.Spawn()
 
@@ -157,7 +174,9 @@ class Marvin(Toon):
         super().__init__()
         self.image = pygame.image.load("Assets/marvin.png")
         self.rect = self.image.get_rect()
-
+        self.name = "Marvin"
+        self.carrot = False
+        self.avoid = False
         self.Spawn()
 
     def draw(self, surface):
@@ -190,8 +209,8 @@ all_sprites = pygame.sprite.Group()
 #creating sprites
 bugsbunny1 = BugsBunny()
 taz1 = Taz()
-# tweety1 = Tweety()
-# marvin1 = Marvin()
+tweety1 = Tweety()
+marvin1 = Marvin()
 # carrot1 = Carrot()
 # mountain1 = Mountain()
 
@@ -201,14 +220,14 @@ taz1 = Taz()
 players = pygame.sprite.Group()
 players.add(bugsbunny1)
 players.add(taz1)
-# players.add(tweety1)
-# players.add(marvin1)
+players.add(tweety1)
+players.add(marvin1)
 
 #all sprites: all created toons
 all_sprites.add(bugsbunny1)
 all_sprites.add(taz1)
-# all_sprites.add(tweety1)
-# all_sprites.add(marvin1)
+all_sprites.add(tweety1)
+all_sprites.add(marvin1)
 # all_sprites.add(carrot1)
 # all_sprites.add(mountain1)
 
