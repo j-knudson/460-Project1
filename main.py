@@ -74,7 +74,21 @@ class Toon(pygame.sprite.Sprite):
         contact =  pygame.sprite.spritecollideany(self, players)
         if contact:
             print(self.name, " hit ", contact.name)
+            if contact.carrot:
+                print(contact, "had the carrot and it is stolen!")
+                self.carrot = True
             pygame.sprite.Sprite.kill(contact)
+        if pygame.sprite.spritecollideany(self, carrot):
+            print(self.name, "got the carrot!")
+            self.carrot = True
+            pygame.sprite.Sprite.kill(carrot1)
+        if pygame.sprite.spritecollideany(self, mountain):
+            if self.carrot:
+                print(self.name, "brought the carrot to the mountain and won!")
+                pygame.quit()
+                sys.exit()
+
+
         players.add(self) #return self to players group
 
 
@@ -215,8 +229,8 @@ bugsbunny1 = BugsBunny()
 taz1 = Taz()
 tweety1 = Tweety()
 marvin1 = Marvin()
-# carrot1 = Carrot()
-# mountain1 = Mountain()
+carrot1 = Carrot()
+mountain1 = Mountain()
 
 #creating sprite groups
 
@@ -233,7 +247,15 @@ all_sprites.add(taz1)
 all_sprites.add(tweety1)
 all_sprites.add(marvin1)
 # all_sprites.add(carrot1)
-# all_sprites.add(mountain1)
+all_sprites.add(mountain1)
+
+#carrot group:
+carrot = pygame.sprite.Group()
+carrot.add(carrot1)
+
+#mountain group:
+mountain = pygame.sprite.Group()
+mountain.add(mountain1)
 
 # Beginning Game Loop
 while True:
