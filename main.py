@@ -45,6 +45,7 @@ class Toon(pygame.sprite.Sprite):
         randomDirection = random.randint(0,8) #create a random value to choose a direction
         randomDistance = random.randint(1,2) #create a reandom value to choose a distance 1 square or 2 squares
 
+
         #create a series of if statements to determine 1 or more directions for the toon to move
         if randomDirection == 1:
             self.MoveUp(randomDistance)
@@ -70,7 +71,7 @@ class Toon(pygame.sprite.Sprite):
             self.MoveDown(randomDistance)
             randomDistance = random.randint(1, 2)
             self.MoveLeft(randomDistance)
-
+        players.add(self) #return self to players group
 
     # These four functions control cardinal direction movement
     def MoveUp(self, distance):
@@ -78,6 +79,8 @@ class Toon(pygame.sprite.Sprite):
         while distance_moved < distance:
             self.rect.move_ip(0, -100)
             distance_moved +=1
+            test = pygame.sprite.spritecollideany(self, players)
+            print("Hit another sprite: ", test)
         if (self.rect.top < 0):  # check if top of board is reached
             self.rect.top = 0  # if so set position to top of board
 
@@ -109,8 +112,7 @@ class Toon(pygame.sprite.Sprite):
         if pygame.sprite.spritecollideany(self, all_sprites):
             print("Bad spawn")
             self.Spawn
-        # if pygame.sprite.spritecollide(players, all_sprites)
-        #     self.Spawn
+
 
 
 
@@ -183,10 +185,10 @@ all_sprites = pygame.sprite.Group()
 #creating sprites
 bugsbunny1 = BugsBunny()
 taz1 = Taz()
-tweety1 = Tweety()
-marvin1 = Marvin()
-carrot1 = Carrot()
-mountain1 = Mountain()
+# tweety1 = Tweety()
+# marvin1 = Marvin()
+# carrot1 = Carrot()
+# mountain1 = Mountain()
 
 #creating sprite groups
 
@@ -194,16 +196,16 @@ mountain1 = Mountain()
 players = pygame.sprite.Group()
 players.add(bugsbunny1)
 players.add(taz1)
-players.add(tweety1)
-players.add(marvin1)
+# players.add(tweety1)
+# players.add(marvin1)
 
 #all sprites: all created toons
 all_sprites.add(bugsbunny1)
 all_sprites.add(taz1)
-all_sprites.add(tweety1)
-all_sprites.add(marvin1)
-all_sprites.add(carrot1)
-all_sprites.add(mountain1)
+# all_sprites.add(tweety1)
+# all_sprites.add(marvin1)
+# all_sprites.add(carrot1)
+# all_sprites.add(mountain1)
 
 # Beginning Game Loop
 while True:
@@ -212,8 +214,10 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
-    bugsbunny1.Move()
-    taz1.Move()
+    for player in players:
+        players.remove(player)
+        player.Move()
+        players.add(player)
     DISPLAYSURF.fill(BGColor)
     board_draw(WIDTH, HEIGHT, SCREEN_WIDTH)
     # bugsbunny1.draw(DISPLAYSURF)
