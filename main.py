@@ -77,10 +77,12 @@ class Toon(pygame.sprite.Sprite):
             if contact.hascarrot:
                 print(contact.name, "had the carrot and it is stolen!")
                 self.hascarrot = True
+                self.setCarrotImage()
             pygame.sprite.Sprite.kill(contact)
         if pygame.sprite.spritecollideany(self, carrot):
             print(self.name, "got the carrot!")
             self.hascarrot = True
+            self.setCarrotImage()
             pygame.sprite.Sprite.kill(carrot1)
         if pygame.sprite.spritecollideany(self, mountain):
             if self.hascarrot:
@@ -171,6 +173,9 @@ class BugsBunny(Toon):
             self.image = pygame.image.load("Assets/bugs2.png")
         self.rect = self.image.get_rect()
         self.avoid = True  #does the toon avoid other toons
+    def setCarrotImage(self):
+        self.image = pygame.image.load("Assets/bugs2.png")
+
 
 
 
@@ -190,7 +195,8 @@ class Taz(Toon):
             self.image = pygame.image.load("Assets/taz.png")
         self.rect = self.image.get_rect()
         self.avoid = True
-
+    def setCarrotImage(self):
+        self.image  = pygame.image.load("Assets/tazcarrot.png")
 
     def draw(self, surface):
         surface.blit(self.image, self.rect)
@@ -202,6 +208,9 @@ class Tweety(Toon):
         self.name = "Tweety"
         self.hascarrot = False
         self.avoid = True
+
+    def setCarrotImage(self):
+        self.image = pygame.image.load("Assets/tweetycarrot.png")
 
         # self.Spawn()
 
@@ -216,6 +225,9 @@ class Marvin(Toon):
         self.hascarrot = False
         self.avoid = False
         # self.Spawn()
+
+    def setCarrotImage(self):
+        self.image = pygame.image.load("Assets/marvincarrot.png")
 
     def draw(self, surface):
         surface.blit(self.image, self.rect)
